@@ -6,8 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface BookRepository extends CrudRepository<Book, Long>{
 
-    Iterable<Book> findByCategoryId(long categoryId);
+    Iterable<Book> getByCategoryId(Long categoryId);
 
-    @Query
-    Iterable<Book>  findBooksByName(String name);
+    @Query(value = "Select * From book WHERE name LIKE CONCAT('%', :query, '%')", nativeQuery = true)
+    Iterable<Book>  searchBooks(String query);
 }

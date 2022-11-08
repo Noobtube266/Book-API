@@ -1,19 +1,14 @@
 package com.HW.Book.API.services;
 
-import com.HW.Book.API.exception.ResourceNotFoundException;
 import com.HW.Book.API.model.Book;
 import com.HW.Book.API.repository.BookRepository;
 import com.HW.Book.API.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.stereotype.Service;
 
-import java.net.URI;
-import java.util.Optional;
-
-@org.springframework.stereotype.Service
+@Service
 public class BookService {
 
     @Autowired
@@ -24,31 +19,30 @@ public class BookService {
 
     public void createBook(Long categoryId, Book book){
         categoryRepository.findById(categoryId).map(category ->{
-            book.setCategory(category);
+            book.setCategory(category.getCategory());
             return bookRepository.save(book);
         });
     }
-
     public Iterable<Book> getAllBooks() {
         return bookRepository.findAll();
     }
-
     public ResponseEntity<?> getBookById(Long bookId) {
-        Book book = bookrepository.findById(bookId).orElse(null)
+        Book book = bookRepository.findById(bookId).orElse(null);
+        return new ResponseEntity<>(book, HttpStatus.OK);
     }
-
-
     public void updateBookById(Long categoryId, Book book) {
-        categoryRepository.findById(categoryId).map(category -> {
-            book.setCategory(category);
+        categoryRepository.findById(categoryId).map(category ->{
+            book.setCategory(category.getCategory());
             return bookRepository.save(book);
         });
     }
-
     public void deleteBookById(Long bookId){
         bookRepository.deleteById(bookId);
     }
-    Iterable<Book> findByCategoryId(long categoryId){
-        return bookRepository.findByCategoryId(categoryId);
+    public Iterable<Book> getByCategoryId(Long categoryId){
+        return bookRepository.getByCategoryId(categoryId);
+    }
+    public Iterable<Book> findBookByName(String query){
+        return bookRepository.searchBooks(query);
     }
 }

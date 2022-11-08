@@ -12,35 +12,41 @@ import javax.validation.Valid;
 public class BooksController {
 
     @Autowired
-    private BookService service;
+    private BookService bookService;
 
     @GetMapping("/books")
-    public ResponseEntity<Iterable<Book>> getAllBooks() {
-        return BookService.getAllBooks();
+    public Iterable<Book> getAllBooks() {
+        return bookService.getAllBooks();
     }
 
     @PostMapping("/books/{categoryId}/books")
-    public ResponseEntity<?> createBook(@PathVariable(value = "CategoryId") Long categoryId @Valid @RequestBody Book book) {
-        return BookService.createBook(categoryId, book);
+    public void createBook(@PathVariable(value = "categoryId") Long categoryId, @RequestBody Book book){
+        bookService.createBook(categoryId, book);
     }
 
 
     @GetMapping("/books/{bookId}")
-    public ResponseEntity<?> getBook(@PathVariable Long bookId) {
-        return service.getBookById(bookId);
+    public ResponseEntity<?> getBookById(@PathVariable Long bookId) {
+        return bookService.getBookById(bookId);
     }
 
     @PutMapping("/books/{categoryId}/books")
-    public ResponseEntity<?> updatePoll(@RequestBody Book book, @PathVariable Long bookId) {
-        return service.updateBook(book, bookId);
+    public void updateBookById(@PathVariable Long categoryId, @RequestBody Book book) {
+        bookService.updateBookById(categoryId, book);
     }
 
     @DeleteMapping("/books/{bookId}")
-    public ResponseEntity<?> deleteBook(@PathVariable Long bookId) {
-        return service.deleteBook(bookId);
+    public void deleteBook(@PathVariable Long id) {
+        bookService.deleteBookById(id);
     }
 
     @GetMapping("/books/{categoryId/books")
-    public ResponseEntity<?> getByCategory(@PathVariable )
+    public Iterable<Book> getByCategoryId(@PathVariable Long categoryId) {
+        return bookService.getByCategoryId(categoryId);
+    }
 
+    @GetMapping("/searchBooks")
+    public Iterable<Book> searchBooks(@RequestParam("query") String query) {
+        return bookService.findBookByName(query);
+    }
 }

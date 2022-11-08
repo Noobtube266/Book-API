@@ -1,27 +1,30 @@
 package com.HW.Book.API.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="BOOK_ID")
+    @Column(name="ID")
     private Long id;
-    @Column(name = "name")
+
     private String name;
-    @Column(name="sku")
     private String sku;
-    @Column(name="description")
     private String description;
-    @Column(name="image")
     private String image;
-    @Column(name="price")
     private Double price;
-    @Column(name="stock")
     private Integer stock;
-    @Column(name="category_ID")
-    private Long category;
+    @ManyToOne
+    @JoinColumn(name = "Category_Id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Category category;
+
+    public Book(){
+    }
 
     public Long getId() {
         return id;
@@ -79,11 +82,11 @@ public class Book {
         this.stock = stock;
     }
 
-    public Long getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Long category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -97,7 +100,6 @@ public class Book {
                 ", image='" + image + '\'' +
                 ", price=" + price +
                 ", stock=" + stock +
-                ", category=" + category +
                 '}';
     }
 }
