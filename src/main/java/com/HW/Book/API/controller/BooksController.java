@@ -39,7 +39,7 @@ public class BooksController {
         bookService.deleteBookById(id);
     }
 
-    @GetMapping("/books/{categoryId/books")
+    @GetMapping("/books/{categoryId}/books")
     public Iterable<Book> getByCategoryId(@PathVariable Long categoryId) {
         return bookService.getByCategoryId(categoryId);
     }

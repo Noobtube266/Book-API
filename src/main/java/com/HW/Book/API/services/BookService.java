@@ -19,7 +19,7 @@ public class BookService {
 
     public void createBook(Book book, Long categoryId){
         categoryRepository.findById(categoryId).map(category ->{
-            book.setCategory(category.getCategory());
+            book.setCategory(category);
             return bookRepository.save(book);
         });
     }
@@ -32,7 +32,7 @@ public class BookService {
     }
     public void updateBookById(Book book, Long categoryId) {
         categoryRepository.findById(categoryId).map(category ->{
-            book.setCategory(category.getCategory());
+            book.setCategory(category);
             return bookRepository.save(book);
         });
     }

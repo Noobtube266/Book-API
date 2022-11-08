@@ -24,24 +24,16 @@ public class CategoryService {
     private BookRepository bookRepository;
 
     public void verifyCategory(Long categoryId) {
-        Category category = categoryRepository.findById(categoryId).orElse(null).getCategory();
+        Category category = categoryRepository.findById(categoryId).orElse(null);
     }
 
     public ResponseEntity<?> getCategory(Long categoryId) {
-        Optional<Book> c = categoryRepository.findById(categoryId);
+        Optional<Category> c = categoryRepository.findById(categoryId);
         return new ResponseEntity<> (c, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> createCategory(Category category) {
+    public void createCategory(Category category) {
         category=categoryRepository.save(category);
-        HttpHeaders responseHeaders = new HttpHeaders();
-        URI newCategoryUri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(category.getId())
-                .toUri();
-        responseHeaders.setLocation(newCategoryUri);
-        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
 
 
@@ -54,7 +46,7 @@ public class CategoryService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     public ResponseEntity<Iterable<Category>> getAllCategory() {
-        Iterable<Book> allCategory = categoryRepository.findAll();
+        Iterable<Category> allCategory = categoryRepository.findAll();
         return new ResponseEntity<>(categoryRepository.findAll(), HttpStatus.OK);
     }
 }
