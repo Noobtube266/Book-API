@@ -2,6 +2,7 @@ package com.HW.Book.API.services;
 
 import com.HW.Book.API.model.Book;
 import com.HW.Book.API.model.Category;
+import com.HW.Book.API.repository.BookRepository;
 import com.HW.Book.API.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -19,12 +20,15 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private BookRepository bookRepository;
+
     public void verifyCategory(Long categoryId) {
         Category category = categoryRepository.findById(categoryId).orElse(null).getCategory();
     }
 
-    public ResponseEntity<?> getCategory(Long CategoryId) {
-        Optional<Book> c = categoryRepository.findById(CategoryId);
+    public ResponseEntity<?> getCategory(Long categoryId) {
+        Optional<Book> c = categoryRepository.findById(categoryId);
         return new ResponseEntity<> (c, HttpStatus.OK);
     }
 

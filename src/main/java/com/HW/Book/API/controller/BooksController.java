@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 @RestController
 public class BooksController {
@@ -21,7 +20,7 @@ public class BooksController {
 
     @PostMapping("/books/{categoryId}/books")
     public void createBook(@PathVariable(value = "categoryId") Long categoryId, @RequestBody Book book){
-        bookService.createBook(categoryId, book);
+        bookService.createBook(book, categoryId);
     }
 
 
@@ -32,7 +31,7 @@ public class BooksController {
 
     @PutMapping("/books/{categoryId}/books")
     public void updateBookById(@PathVariable Long categoryId, @RequestBody Book book) {
-        bookService.updateBookById(categoryId, book);
+        bookService.updateBookById(book, categoryId);
     }
 
     @DeleteMapping("/books/{bookId}")

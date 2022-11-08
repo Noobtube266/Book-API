@@ -17,7 +17,7 @@ public class BookService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public void createBook(Long categoryId, Book book){
+    public void createBook(Book book, Long categoryId){
         categoryRepository.findById(categoryId).map(category ->{
             book.setCategory(category.getCategory());
             return bookRepository.save(book);
@@ -30,7 +30,7 @@ public class BookService {
         Book book = bookRepository.findById(bookId).orElse(null);
         return new ResponseEntity<>(book, HttpStatus.OK);
     }
-    public void updateBookById(Long categoryId, Book book) {
+    public void updateBookById(Book book, Long categoryId) {
         categoryRepository.findById(categoryId).map(category ->{
             book.setCategory(category.getCategory());
             return bookRepository.save(book);
